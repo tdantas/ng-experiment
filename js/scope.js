@@ -93,10 +93,8 @@ Scope.prototype.evalAsync = function(expression) {
       }
     },0)
   }
-
   this.asyncQueue.push({ scope: this, expression: expression })
 }
-
 
 var scope = new Scope();
 scope.asyncCounter = 1;
@@ -108,7 +106,7 @@ scope.watch(
   },
   
   function(newValue, oldValue, scope) {
-    scope.evalAsync(function(scope) { scope.asyncCounter++; });
+    scope.evalAsync(function(scope) { scope.asyncCounter = 10; });
     console.log("eval - listener: "+ scope.asyncCounter);
   }
 

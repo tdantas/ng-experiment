@@ -4,6 +4,11 @@ function Scope() {
   this.watchers   = [];
   this.asyncQueue = [];
   this.phase = null;
+  this.postDigestQueue = [];
+}
+
+Scope.prototype.postDigest = function(fn) {
+  this.postDigestQueue.push(fn);
 }
 
 Scope.prototype.beginPhase = function(phase) {
@@ -40,6 +45,13 @@ Scope.prototype.digest = function() {
   } while(dirty)
 
   this.clearPhase();
+  postDigestLoop.call(this);
+
+  function postDigestLoop() {
+    while(this.postDigestQueue.length) {
+      (this.postDigestQueue.shift())();
+    }
+  }
    
 
   function nestedLoop() {

@@ -1,5 +1,5 @@
 Function.prototype.extend = function(parent) {
-  
+
   this.prototype = extend({ }, parent.prototype, { parent: parent.prototype, constructor: this })
   return this;
 
@@ -8,7 +8,8 @@ Function.prototype.extend = function(parent) {
     args.shift(); //removing destination
     _.forEach(args, function(source){
       for(var field in source) {
-        destination[field] = source[field];
+        if(source.hasOwnProperty(field))
+          destination[field] = source[field];
       }
     })
     return destination;
@@ -16,36 +17,28 @@ Function.prototype.extend = function(parent) {
 
 }
 
-function GrandFather(name) {
-  this.name = 'holmes'
+console.log('  ---------- Inheritance ---------- ');
+function Parent(name) {
+  this.name = name;
 }
 
-GrandFather.prototype.sayMyName = function(){
+Parent.prototype.getName = function(){
   return this.name;
 }
 
-function Father() { }
-Father.extend(GrandFather);
-Father.prototype.getAddress = function() {
-  return 'address';
+function Child(name) {
+  this.name = name;
 }
 
-function Child() {
-  this.name = 'thiago'
-}
-Child.extend(Father)
+Child.extend(Parent);
 
-Child.prototype.xxx = function() {
- return 'child';
+Child.prototype.getName = function() {
+  console.log('overriding getName method')
+  return this.parent.getName.call(this) + " [ Dantas ] "
 }
 
-Child.prototype.sayMyName = function() {
-  return 'child call "super" -> ' + this.parent.sayMyName.call(this)
-}
+var child = new Child('thiago teixeira')
+console.log(child.getName())
 
-var c = new Child();
-console.log(c.sayMyName());
-console.log(c.getAddress());
-console.log(c.xxx());
-var gf = new GrandFather();
-console.log(gf.sayMyName())
+console.log('  ---------- Inheritance ---------- ');
+

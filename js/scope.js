@@ -32,8 +32,12 @@ Scope.prototype.digest = function() {
   do {
     
     while(this.asyncQueue.length) {
-      var task = this.asyncQueue.shift();
-      this.eval(task.expression);
+      try {
+        var task = this.asyncQueue.shift();
+        this.eval(task.expression);
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     dirty = nestedLoop.call(this);
@@ -49,23 +53,33 @@ Scope.prototype.digest = function() {
 
   function postDigestLoop() {
     while(this.postDigestQueue.length) {
-      (this.postDigestQueue.shift())();
+      try { 
+        (this.postDigestQueue.shift())();
+      } catch (e) {
+        console.log('post digest', e)
+      }
     }
   }
    
-
   function nestedLoop() {
     var that  = this;
     var dirty = false;
 
     _.forEach(this.watchers, function(watcher) {
-      var newValue = watcher.watchFn(that);
-      var oldValue = watcher.value;
-      if( ! equal(newValue, oldValue, watcher.valueComparator) ) {
-        watcher.listener(newValue, oldValue, that);
-        watcher.value = ( watcher.valueComparator ? _.cloneDeep(newValue) : newValue)
-        dirty = true;
+      try { 
+
+        var newValue = watcher.watchFn(that);
+        var oldValue = watcher.value;
+        if( ! equal(newValue, oldValue, watcher.valueComparator) ) {
+          watcher.listener(newValue, oldValue, that);
+          watcher.value = ( watcher.valueComparator ? _.cloneDeep(newValue) : newValue)
+          dirty = true;
+        }
+
+      } catch (e) {
+        console.log('nestedLoop digest' , e)
       }
+
     })
 
     return dirty;

@@ -11,13 +11,25 @@ app.controller('PageCtrl', function($scope) {
 });
 
 app.controller('TodosController', function($scope) {
+  
   $scope.todos = [
+
     { name:'Eat / Comer' },
     { name:'Sleep / Dormir' },
     { name:'Joy / Lazer' },
     { name:'Study / Estudar' },
     { name:'Love / Namorar' }
+  
   ];
+
+  $scope.$on('prioritized-todo', function(e, data) {
+    var item = $scope.todos.splice(data.from, 1)[0];
+    $scope.todos.splice(data.to, 0, item);
+  })
+  
+  $scope.$on('added-todo', function(e, data) {
+    $scope.todos.splice(data.to, 0, { name: data.name } );
+  })
 
 });
 
@@ -56,23 +68,25 @@ app.controller('ServicesController', function($scope) {
 app.directive('draggable',function() {
   return {
 
-    link: function(scope,el,attrs) {
+    link: function(scope, el, attrs) {
 
       el.sortable({ revert: true});
       el.disableSelection();
       
-      el.on( "sortdeactivate", function( event, ui ) { 
+      el.on( "sortdeactivate", function( event, ui ) {
         var from = angular.element(ui.item).scope().$index;
         var to = el.children().index(ui.item);
+
         if(to >= 0) {
-          scope.$apply(function() {
+          scope.$apply(changeTodoList);
+          function changeTodoList() {
             if(from>=0) {
-              scope.$emit('my-sorted', {from:from,to:to});
-            }else{
-              scope.$emit('my-created', {to:to, name:ui.item.text()});
+              scope.$emit('prioritized-todo', { from: from, to: to });
+            } else { 
+              scope.$emit('added-todo', { to:to, name: ui.item.text() });
               ui.item.remove();
             }
-          })
+          }
         }
       });
     }

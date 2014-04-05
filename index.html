@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" ng-app='Study' ng-controller='PageCtrl'>
   
   <head>
     <meta charset="utf-8">
@@ -6,43 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>ng experiment</title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/starter-template.css" rel="stylesheet">
+    <title>  Menu  </title>
+    <link href="css/menu.css" rel="stylesheet">
+    <link href="css/services.css" rel="stylesheet">
 
   </head>
 
-  <body>
+  <body >
+    
+    <div id="menu-bar">
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">ng experiment</a>
-        </div>
-      </div>
+      <nav class="{{active}}">
+        <a class="home"     ng-click="activate('home')">Home</a>
+        <a class="projects" ng-click="activate('projects')">Projects</a>
+        <a class="services" ng-click="activate('services')">Skills</a>
+        <a class="todo"     ng-click="activate('todo')">Todo</a>
+      </nav>
+
+      <p ng-hide="active">Please click a menu item</p>
+      <p ng-show="active">You chose <b> {{active}} </b></p>
+
     </div>
 
-    <div class="container">
+    <section class='list' ng-show="active === 'services' " ng-controller="ServicesController">
+      <div >
+        <h1>My Skills</h1>
+          <ul>
+            <li ng-repeat="service in services" ng-click="toggleActive(service)" ng-class="{active:service.active }">
+              {{service.name}} <span>{{ service.price | currency }}</span>
+            </li>
+          </ul>
 
-      <div class="starter-template">
-        <h1>ng experiment</h1>
-        <p class="lead">Reiventing the wheel to better understand some angular magic tricks </p>
+          <div class="total">
+            Total: <span> {{ total() | currency }}</span>
+          </div>
       </div>
+    </section>
 
-
-    <div ng:app>
-      <div ng-controller='CalendarController'>
+    <section class='list' ng-show="active === 'todo'" ng-controller='TodosController'>
+      <div id='todos'>
+        <ul draggable id="sortable">
+          <li ng-class-even="'active'" ng-repeat="todo in todos">{{ todo.name }}</li>
+        </ul>
       </div>
-    </div>
+    </section>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="js/lodash.js"></script>
-    <script src="js/scope.js"></script>
-    <script src="js/di.js"></script>
-    <script src="js/extend.js"></script>
-    <script src="js/scope-inheritance.js"></script>
-
-
-</body></html>
+    <script data-require="jqueryui" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+    <script src="js/angular.js"></script>
+    <script src='js/app/app.js'></script>
+  
+  </body>
+</html>

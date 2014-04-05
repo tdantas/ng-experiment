@@ -41,7 +41,7 @@
     <section class='list' ng-show="active === 'todo'" ng-controller='TodosController'>
       <div id='todos'>
         <ul draggable id="sortable">
-          <li ng-class-even="'active'" ng-repeat="todo in todos">{{ todo.name }}</li>
+          <li ng-repeat="todo in todos">{{ todo.name }}</li>
         </ul>
       </div>
     </section>

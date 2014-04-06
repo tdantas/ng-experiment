@@ -1,6 +1,7 @@
-var app = angular.module('Study', []);
+var ExperimentApp = angular.module('ExperimentApp', ['angularMoment']);
+ExperimentApp.constant('angularMomentConfig', { timezone: 'Europe/London' });
 
-app.controller('PageCtrl', function($scope) {
+ExperimentApp.controller('PageCtrl', function($scope) {
   $scope.active = 'todo';
 
   $scope.activate = function(section) {
@@ -10,15 +11,15 @@ app.controller('PageCtrl', function($scope) {
 
 });
 
-app.controller('TodosController', function($scope) {
+ExperimentApp.controller('TodosController', function($scope) {
   
   $scope.todos = [
 
-    { name:'Eat / Comer' },
-    { name:'Sleep / Dormir' },
-    { name:'Joy / Lazer' },
-    { name:'Study / Estudar' },
-    { name:'Love / Namorar' }
+    { name:'Eat / Comer', createdAt: new Date },
+    { name:'Sleep / Dormir', createdAt:  new Date },
+    { name:'Joy / Lazer', createdAt: new Date },
+    { name:'Study / Estudar', createdAt:  new Date },
+    { name:'Love / Namorar', createdAt:  new Date }
   
   ];
 
@@ -33,7 +34,7 @@ app.controller('TodosController', function($scope) {
 
 });
 
-app.controller('ServicesController', function($scope) {
+ExperimentApp.controller('ServicesController', function($scope) {
   $scope.services = [
     {
       name: 'Web Development',
@@ -65,7 +66,7 @@ app.controller('ServicesController', function($scope) {
 
 });
 
-app.directive('draggable',function() {
+ExperimentApp.directive('draggable',function() {
   return {
 
     link: function(scope, el, attrs) {

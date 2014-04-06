@@ -1,4 +1,4 @@
-<html lang="en" ng-app='Study' ng-controller='PageCtrl'>
+<html lang="en" ng-app='ExperimentApp' ng-controller='PageCtrl'>
   
   <head>
     <meta charset="utf-8">
@@ -41,14 +41,21 @@
     <section class='list' ng-show="active === 'todo'" ng-controller='TodosController'>
       <div id='todos'>
         <ul draggable id="sortable">
-          <li ng-repeat="todo in todos">{{ todo.name }}</li>
+          <li ng-repeat="todo in todos">
+            {{ todo.name }} 
+            <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
+          </li>
         </ul>
       </div>
     </section>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script data-require="jqueryui" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js'></script>
+    <script src="js/moment-timezone.js"></script>
+
     <script src="js/angular.js"></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.6.2/angular-moment.min.js'></script>
     <script src='js/app/app.js'></script>
   
   </body>

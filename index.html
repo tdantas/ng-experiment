@@ -6,56 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>  Menu  </title>
+    <title>  Experiment  </title>
     <link href="css/menu.css" rel="stylesheet">
     <link href="css/services.css" rel="stylesheet">
 
   </head>
 
-  <body >
+  <body>
     
     <div id="menu-bar">
-      <nav class="{{active}}">
-        <a class="services" ng-click="activate('services')">Skills</a>
-        <a class="todo"     ng-click="activate('todo')">Todo</a>
+      <nav class="{{ menuNav.active }}">
+        <a class="skills"  href="/#skills" ng-click="activate('skills')" >Skills</a>
+        <a class="todo"    href='/#todos'  ng-click="activate('todo')" >Todo</a>
       </nav>
-
-      <p ng-hide="active">Please click a menu item</p>
     </div>
 
-    <section class='list' ng-show="active === 'services' " ng-controller="ServicesController">
-      <div >
-        <h1>My Skills</h1>
-          <ul>
-            <li ng-repeat="service in services" ng-click="toggleActive(service)" ng-class="{active:service.active }">
-              {{service.name}} <span>{{ service.price |  currency:"€" }}</span>
-            </li>
-          </ul>
+    <div ng-view></div>
 
-          <div class="total">
-            Total: <span> {{ total() | currency:"€" }}</span>
-          </div>
-      </div>
-    </section>
+    <script type="text/ng-template" id="skills.html">
+      <section class='list'>
+        <div >
+          <h1>My Skills</h1>
+            <ul>
+              <li ng-repeat="service in services" ng-click="toggleActive(service)" ng-class="{active:service.active }">
+                {{service.name}} <span> {{ service.price |  currency:"€" }}</span>
+              </li>
+            </ul>
 
-    <section class='list' ng-show="active === 'todo'" ng-controller='TodosController'>
-      <div id='todos'>
-        <ul draggable id="sortable">
-          <li ng-repeat="todo in todos">
-            {{ todo.name }} 
-            <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
-          </li>
-        </ul>
-      </div>
-    </section>
+            <div class="total">
+              Total: <span> {{ total() | currency:"€" }} </span>
+            </div>
+        </div>
+      </section>
+    </script>
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script data-require="jqueryui" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+    
     <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js'></script>
     <script src="js/moment-timezone.js"></script>
 
     <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.6.2/angular-moment.min.js'></script>
+
     <script src='js/app/app.js'></script>
   
   </body>

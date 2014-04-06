@@ -1,0 +1,10 @@
+<section class='list'>
+  <div id='todos'>
+    <ul draggable id="sortable">
+      <li ng-repeat="todo in todos">
+        {{ todo.name }} 
+        <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
+      </li>
+    </ul>
+  </div>
+</section>

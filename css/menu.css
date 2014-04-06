@@ -59,9 +59,7 @@ nav a:last-child{
   border-radius:0 2px 2px 0;
 }
 
-nav.home .home,
-nav.projects .projects,
-nav.services .services,
+nav.skills .skills,
 nav.todo .todo{
   background-color:#e35885;
 }

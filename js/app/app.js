@@ -1,18 +1,37 @@
-var ExperimentApp = angular.module('ExperimentApp', ['angularMoment']);
+var ExperimentApp = angular.module('ExperimentApp', ['angularMoment', 'ngRoute']);
+
 ExperimentApp.constant('angularMomentConfig', { timezone: 'Europe/London' });
 
+ExperimentApp.config(['$routeProvider',
+
+  function($routeProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'js/app/views/todos.html',
+        controller: 'TodosController'
+      }).
+      when('/skills', {
+        templateUrl: 'skills.html',
+        controller: 'ServicesController'
+      }).
+      otherwise({
+        redirectTo: '/'
+      });
+ }]);
+
+
 ExperimentApp.controller('PageCtrl', function($scope) {
-  $scope.active = 'todo';
+  $scope.menuNav = { active: 'todo' };
 
   $scope.activate = function(section) {
-    console.log(arguments);
-    $scope.active = section;
+    $scope.menuNav.actitave = section;
   }
 
 });
 
 ExperimentApp.controller('TodosController', function($scope) {
-  
+  $scope.menuNav.active = 'todo';
+
   $scope.todos = [
 
     { name:'Eat / Comer', createdAt: new Date },
@@ -35,6 +54,8 @@ ExperimentApp.controller('TodosController', function($scope) {
 });
 
 ExperimentApp.controller('ServicesController', function($scope) {
+  $scope.menuNav.active = 'skills';
+
   $scope.services = [
     {
       name: 'Web Development',
@@ -50,6 +71,9 @@ ExperimentApp.controller('ServicesController', function($scope) {
       active: false
     }
   ];
+
+  $scope.date = +new Date;
+
 
   $scope.toggleActive = function(s){
     s.active = !s.active;

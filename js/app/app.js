@@ -1,10 +1,8 @@
 var ExperimentApp = angular.module('ExperimentApp', ['angularMoment', 'ngRoute']);
 
 ExperimentApp.constant('angularMomentConfig', { timezone: 'Europe/London' });
-
 ExperimentApp.config(['$routeProvider',
-
-  function($routeProvider) {
+  function($routeProvider) {
     $routeProvider.
       when('/', {
         templateUrl: 'js/app/views/todos.html',
@@ -19,7 +17,6 @@ ExperimentApp.config(['$routeProvider',
       });
  }]);
 
-
 ExperimentApp.controller('PageCtrl', function($scope) {
   $scope.menuNav = { active: 'todo' };
 
@@ -31,6 +28,7 @@ ExperimentApp.controller('PageCtrl', function($scope) {
 
 ExperimentApp.controller('TodosController', function($scope) {
   $scope.menuNav.active = 'todo';
+  $scope.q = ''
 
   $scope.todos = [
 

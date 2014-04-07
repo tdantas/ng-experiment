@@ -40,9 +40,7 @@ ExperimentApp.controller('TodosController', function($scope, $routeParams, todoS
         { name:'Joy / Lazer', createdAt: new Date },
         { name:'Study / Estudar', createdAt:  new Date },
         { name:'Love / Namorar', createdAt:  new Date }];
-
-        persist(DEFAULT, function(err, todos) { $scope.todos = todos; })
-
+        $scope.todos = DEFAULT; 
     }else {
       $scope.todos = todos;
     }
@@ -73,7 +71,7 @@ ExperimentApp.controller('TodosController', function($scope, $routeParams, todoS
     if (newValue !== oldValue) {
       todoStorage('todos').put($scope.todos);
     }
-  }, true)
+  }, true);
 
 });
 

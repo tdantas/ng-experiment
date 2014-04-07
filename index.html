@@ -10,6 +10,7 @@
     <link href="css/menu.css" rel="stylesheet">
     <link href="css/services.css" rel="stylesheet">
 
+
   </head>
 
   <body>
@@ -43,7 +44,8 @@
 
     <script src="js/vendors/jquery.js"></script>
     <script data-require="jqueryui" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
-    
+    <script src="js/vendors/icheck.js"></script>
+
     <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js'></script>
     <script src="js/vendors/moment-timezone.js"></script>
 
@@ -53,6 +55,13 @@
 
     <script src='js/app/app.js'></script>
     <script src='js/app/services/storage.js'></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('input').iCheck();
+      });
+
+    </script>
   
   </body>
 </html>

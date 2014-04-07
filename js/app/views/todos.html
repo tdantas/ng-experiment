@@ -1,18 +1,25 @@
 <section class='list'>
 
-  <input class='rounded' placeholder='Filter' ng-model="q">
 
   <div id='todos'>
+
+    <input class='rounded' placeholder='Filter or Add' ng-model="q">
+
+    <a class='btn rounded' ng-click='openTodo=true'> + </a>
+    <div ng-show='openTodo'>
+      <a ng-click='openTodo=false'> - </a>
+    </div>
+
     <ul draggable id="sortable">
       <li ng-repeat="todo in todos | filter:q ">
 
+        <input type='checkbox' ng-model="todo.done" ng-click='done(todo)'>
         <span ng-class="{done: todo.done}">
           {{ todo.name }}
-          <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
+          <span class='timestamp' am-time-ago="todo.createdAt" am-preprocess="utc"></span>
         </span>
 
-        <a ng-click='trash(todo)'> X </a>
-        <input type='checkbox' ng-model="todo.done" ng-click='done(todo)'>
+        <a class='rounded btn delete' ng-click='trash(todo)'>&times;</a>
 
       </li>
     </ul>

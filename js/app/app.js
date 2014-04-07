@@ -1,6 +1,6 @@
 var ExperimentApp = angular.module('ExperimentApp', ['angularMoment', 'ngRoute']);
-
 ExperimentApp.constant('angularMomentConfig', { timezone: 'Europe/London' });
+
 ExperimentApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -17,7 +17,7 @@ ExperimentApp.config(['$routeProvider',
       });
  }]);
 
-ExperimentApp.controller('PageCtrl', function($scope) {
+ExperimentApp.controller('PageCtrl', function($scope, $routeParams) {
   $scope.menuNav = { active: 'todo' };
 
   $scope.activate = function(section) {
@@ -26,32 +26,58 @@ ExperimentApp.controller('PageCtrl', function($scope) {
 
 });
 
-ExperimentApp.controller('TodosController', function($scope) {
+ExperimentApp.controller('TodosController', function($scope, $routeParams, todoStorage) {
   $scope.menuNav.active = 'todo';
   $scope.q = ''
 
-  $scope.todos = [
+  todoStorage('todos').get(function(err, todos) {
 
-    { name:'Eat / Comer', createdAt: new Date },
-    { name:'Sleep / Dormir', createdAt:  new Date },
-    { name:'Joy / Lazer', createdAt: new Date },
-    { name:'Study / Estudar', createdAt:  new Date },
-    { name:'Love / Namorar', createdAt:  new Date }
-  
-  ];
+    if( !todos || todos.length === 0) {
+      var DEFAULT = [
+        
+        { name:'Eat / Comer', createdAt: new Date, done: true },
+        { name:'Sleep / Dormir', createdAt:  new Date },
+        { name:'Joy / Lazer', createdAt: new Date },
+        { name:'Study / Estudar', createdAt:  new Date },
+        { name:'Love / Namorar', createdAt:  new Date }];
+
+        persist(DEFAULT, function(err, todos) { $scope.todos = todos; })
+
+    }else {
+      $scope.todos = todos;
+    }
+
+  })
+
+  $scope.add = function(text) {
+    $scope.todos.unshift({name: text, createdAt: new Date, done: false });
+  }
 
   $scope.$on('prioritized-todo', function(e, data) {
     var item = $scope.todos.splice(data.from, 1)[0];
     $scope.todos.splice(data.to, 0, item);
   })
+
+  $scope.trash = function(todo) {
+    var idx = $scope.todos.indexOf(todo);
+    if(idx >= 0) { $scope.todos.splice(idx, 1); }
+  }
   
   $scope.$on('added-todo', function(e, data) {
     $scope.todos.splice(data.to, 0, { name: data.name } );
   })
 
+  $scope.done = function(todo) { todo.done = true; }
+
+  $scope.$watch('todos', function(newValue, oldValue) {
+    if (newValue !== oldValue) {
+      todoStorage('todos').put($scope.todos);
+    }
+  }, true)
+
 });
 
-ExperimentApp.controller('ServicesController', function($scope) {
+ExperimentApp.controller('ServicesController', function($scope, $routeParams) {
   $scope.menuNav.active = 'skills';
 
   $scope.services = [

@@ -4,9 +4,16 @@
 
   <div id='todos'>
     <ul draggable id="sortable">
-      <li ng-repeat="todo in todos | filter:q">
-        {{ todo.name }} 
-        <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
+      <li ng-repeat="todo in todos | filter:q ">
+
+        <span ng-class="{done: todo.done}">
+          {{ todo.name }}
+          <small am-time-ago="todo.createdAt" am-preprocess="utc"></small>
+        </span>
+
+        <a ng-click='trash(todo)'> X </a>
+        <input type='checkbox' ng-model="todo.done" ng-click='done(todo)'>
+
       </li>
     </ul>
   </div>

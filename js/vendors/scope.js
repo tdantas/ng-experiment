@@ -21,7 +21,7 @@ Scope.prototype.clearPhase = function() {
 }
 
 Scope.prototype.watch = function(watchFn, listener, valueComparator) {
-  this.watchers.push({watchFn: watchFn, listener: listener || nop , valueComparator: !! valueComparator })
+  this.watchers.push({watchFn: watchFn, listener: listener || nop , valueComparator: !!valueComparator })
 }
 
 Scope.prototype.digest = function() {
@@ -30,7 +30,6 @@ Scope.prototype.digest = function() {
   this.beginPhase('digesting');
 
   do {
-    
     while(this.asyncQueue.length) {
       try {
         var task = this.asyncQueue.shift();

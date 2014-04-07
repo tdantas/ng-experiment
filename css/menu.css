@@ -83,7 +83,9 @@ p b{
 #todo-container > ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; }
 #todo-container > li { margin: 5px; padding: 5px; width: 150px; }
 
-
+.done {
+  text-decoration: line-through;
+}
 
 input.rounded {
 
